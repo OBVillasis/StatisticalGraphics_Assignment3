@@ -1,0 +1,88 @@
+---
+title: "STAT7123/STAT8123"
+output:
+  pdf_document:
+    keep_tex: no
+    includes:
+date: "Due 11:55 pm, Friday November 3rd, 2023"
+subtitle: "Statistical Graphics Assignment 3"
+author: "Change this to your name"
+---
+
+\section{Question 1}
+
+a) 
+
+```{r, echo=TRUE}
+#Put your annotations / comments here and your code on the following line
+
+```
+
+add your answers here
+
+b) 
+
+```{r, echo=TRUE}
+#Put your annotations / comments here and your code on the following line
+
+```
+
+add your answers here
+
+c) 
+
+```{r, echo=TRUE}
+#Put your annotations / comments here and your code on the following line
+
+```
+
+add your answers here
+
+d) 
+
+```{r, echo=TRUE}
+#Put your annotations / comments here and your code on the following line
+
+```
+
+e) 
+
+add your answers here
+
+\section{Question 2}
+
+a) 
+
+```{r, echo=TRUE}
+#Put your annotations / comments here and your code on the following line
+
+```
+
+add your answers here
+
+b) 
+
+```{r, echo=TRUE}
+#Put your annotations / comments here and your code on the following line
+
+```
+
+add your answers here
+
+c) 
+
+```{r, echo=TRUE}
+#Put your annotations / comments here and your code on the following line
+
+```
+
+add your answers here
+
+d) 
+
+```{r, echo=TRUE}
+#Put your annotations / comments here and your code on the following line
+
+```
+
+add your answers here
