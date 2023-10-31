@@ -6,7 +6,7 @@ output:
     includes:
 date: "Due 11:55 pm, Friday November 3rd, 2023"
 subtitle: "Statistical Graphics Assignment 3"
-author: "Change this to your name"
+author: "Osbert Bryan T. Villasis"
 ---
 
 ```{r setup, include=FALSE}
@@ -23,7 +23,7 @@ library(broom)
 
 \section{Question 1}
 
-a) 
+a) Make a dumbbell plot that shows that change in average attendance between 2011 and 2022 for the 5 different school remoteness categories. In 2-4 sentences, comment on what the dumbbell plot shows in regards to the changes in student attendance rates.
 
 ```{r, echo=TRUE}
 # Load the data
@@ -46,16 +46,17 @@ ggplot(attendance_avg, aes(y = asgs_remoteness)) +
   theme_minimal()
 ```
 
-add your answers here
+The graph visually represents shifts in average student attendance rates across different remoteness categories in Australia, comparing data from 2011 and 2022. Notably, all remoteness categories seem to exhibit a noticeable change in attendance rates over the decade. Inner Regional Australia and Major Cities of Australia have relatively narrow variations between the two years, implying smaller fluctuations in attendance. In contrast, Very Remote Australia and Remote Australia have more pronounced differences, suggesting potentially significant external factors or policies impacting attendance in those areas during this timeframe.
 
-b) 
+b) Create an alluvial plot with 2022 data, using three categorical variables on the axes: selective_school, school_gender, and asgs_remoteness. In 2-4 sentences, comment on what the alluvial plot shows in regards to school types.
 
 ```{r, echo=TRUE}
 schools_2022 <- schools_data %>%
   select(selective_school, school_gender, asgs_remoteness)
 
 # Alluvial Plot
-ggplot(schools_2022, aes(axis1 = selective_school, axis2 = school_gender, axis3 = asgs_remoteness)) +
+ggplot(schools_2022, aes(axis1 = selective_school, axis2 = school_gender, axis3 = 
+                           asgs_remoteness)) +
   geom_alluvium(aes(fill = selective_school)) +
   geom_stratum() +
   geom_text(stat = "stratum", aes(label = after_stat(stratum)), 
@@ -63,19 +64,23 @@ ggplot(schools_2022, aes(axis1 = selective_school, axis2 = school_gender, axis3 
   theme_minimal() +
   theme(legend.position = "bottom") + # move legend to the bottom
   labs(title = "Alluvial Plot of School Types in 2022",
-       subtitle = "Showing relationships between selectivity, gender status, and remoteness")
+       subtitle = "Showing relationships between selectivity, gender status, 
+       and remoteness")
 ```
 
-add your answers here
+The alluvial plot offers a nuanced visualization of school types in 2022, interlinking selectivity, gender status, and geographical remoteness. A noteworthy observation is the significant number of non-selective schools, with most of them being coeducational. These coed, non-selective institutions predominantly lie within 'Major Cities of Australia' and 'Inner Regional Australia', highlighting urban and semi-urban areas' inclination towards more inclusive educational environments. Conversely, fully selective schools exhibit a more even gender distribution but are still primarily concentrated within major cities.
 
-c) 
+c) For this question, select 5 different schools (You are required to show which schools you picked). Create two plots; (i) a line plot, and (ii) a stacked area plot for the 5 schools showing the changes in percentage attendance over time. Which school had the highest attendance percentage in 2018? Provide 2-4 sentences which comment on the benefits and drawbacks of each plot.
 
 ```{r, echo=TRUE}
 # Selecting five schools
-selected_schools <- c("Adaminaby Public School", "Chipping Norton Public School", "Empire Bay Public School", "Islington Public School", "Kempsey West Public School")
+selected_schools <- c("Adaminaby Public School", "Chipping Norton Public School", 
+                      "Empire Bay Public School", "Islington Public School", 
+                      "Kempsey West Public School")
 schools_subset <- schools_data %>%
   filter(school_name %in% selected_schools) %>%
-  pivot_longer(cols = starts_with("attend_"), names_to = "year", values_to = "attendance_rate") %>%
+  pivot_longer(cols = starts_with("attend_"), names_to = "year", values_to = 
+                 "attendance_rate") %>%
   # Extract the numeric part of the 'year' column and convert it to numeric type
   mutate(year = as.numeric(str_extract(year, "\\d+")))
 
@@ -84,22 +89,25 @@ ggplot(schools_subset, aes(x = year, y = attendance_rate, color = school_name)) 
   geom_line() +
   labs(title = "Attendance Rate Over Time for Selected Schools",
        x = "Year", y = "Attendance Rate (%)") +
-  scale_x_continuous(breaks = seq(min(schools_subset$year), max(schools_subset$year), by = 1))
+  scale_x_continuous(breaks = seq(min(schools_subset$year), max(schools_subset$year), 
+                                  by = 1))
 
 # Stacked area plot
 ggplot(schools_subset, aes(x = year, y = attendance_rate, fill = school_name)) +
   geom_area(position = 'stack') +
   labs(title = "Stacked Area Plot of Attendance Rate Over Time",
        x = "Year", y = "Attendance Rate (%)") +
-  scale_x_continuous(breaks = seq(min(schools_subset$year), max(schools_subset$year), by = 1))
+  scale_x_continuous(breaks = seq(min(schools_subset$year), max(schools_subset$year), 
+                                  by = 1))
 ```
 
-add your answers here
+The two plots present an analysis of attendance rates over time for five selected Australian schools.  In 2018, "Adaminaby Public School" had the highest attendance percentage among the selected schools, as depicted by the line plot. The line plot offers clear visual representation of trends over time for each individual school, making it easier to compare attendance rates across schools for any specific year. However, it might get cluttered when more schools are added, making the lines harder to distinguish. The stacked area plot, on the other hand, provides a collective visualization of attendance percentages, emphasizing the overall trend rather than individual school trends. This makes it challenging to determine specific values for each school, especially when the areas overlap. However, it offers a concise representation of how attendance percentages for all schools cumulatively change over time.
 
-d) 
+d) Create two different plots of your choice to explore the school attendance data further.
 
 ```{r, echo=TRUE}
-#Faceted Scatter Plot comparing Attendance Rate and Enrolment in 2022 across Different School Types
+#Faceted Scatter Plot comparing Attendance Rate and Enrolment in 2022 across 
+#Different School Types
 ggplot(schools_data, aes(x = enrolment_2022, y = attend_2022, color = school_gender)) +
   geom_point() +
   facet_wrap(~selective_school) +
@@ -112,7 +120,8 @@ ggplot(schools_data, aes(x = enrolment_2022, y = attend_2022, color = school_gen
 #Heatmap showing Attendance Rates over the Years for Different Remoteness Categories
 # Prepare data for the heatmap
 attendance_long <- schools_data %>%
-  pivot_longer(cols = starts_with("attend_"), names_to = "year", values_to = "attendance_rate") %>%
+  pivot_longer(cols = starts_with("attend_"), names_to = "year", 
+               values_to = "attendance_rate") %>%
   mutate(year = as.numeric(str_replace(year, "attend_", "")))  # Converting year to numeric
 
 ggplot(attendance_long, aes(x = year, y = asgs_remoteness, fill = attendance_rate)) +
@@ -123,21 +132,29 @@ ggplot(attendance_long, aes(x = year, y = asgs_remoteness, fill = attendance_rat
        y = "Remoteness Category",
        fill = "Attendance Rate") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))  # Rotate x-axis labels for readability
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) # Rotate x-axis labels for readability
 ```
-add your answers here
+These two plots offer complexity and variety in graphical representation. The scatter plot with faceting allows examining the relationship between enrolment size and attendance rates, differentiating by school types and genders. The heatmap gives an immediate visual representation of how attendance rates have changed over years across different geographical locations.
 
-These two plots offer complexity and variety in graphical representation. The scatter plot with faceting allows examining the relationship between enrolment size and attendance rates, differentiating by school types and genders. The heatmap gives an immediate visual representation of how attendance rates have changed over years across different geographical locations. 
+The scatter plot showcases the 2022 attendance rates in relation to school enrolment across different selectivity types. It's evident that non-selective schools, with the most data points, have a wide range of enrolments and attendance rates. Contrastingly, fully selective schools seem to have a narrower band of attendance, albeit with fewer students. The heatmap, on the other hand, reveals a consistent trend where major cities consistently exhibit higher attendance rates over the years compared to remote areas; however, in recent years, even urban centers seem to have dipped in attendance, aligning closer to remote regions.
 
-e) 
+e) Understanding, analysing, and communicating data is essential for any analytics role. Job descriptions for such positions often emphasise the importance of statistics skills to interpret and communicate data effectively with a broad audience. Within 150 words, provide an informative, coherent and precise summary of your finding from the graphical analysis of the given data set. On top of the 150 words, provide 2-4 insights from the data (these can be done as bullet points).
 
-Write a concise summary of your findings from the graphical analysis. Remember, the summary should be in your words as per the note.
+The graphical analysis of the dataset presents a comprehensive overview of student attendance trends in various Australian schools. Over the past decade, attendance rates have shown noticeable fluctuations. A clear distinction is evident based on school location, with urban schools, specifically those in major cities, consistently boasting higher attendance rates compared to their remote counterparts. However, between 2011 and 2022, all categories of remoteness witnessed a decline in attendance, with "Very Remote Australia" schools experiencing the most pronounced drop. This could signify potential challenges in access to education or other socioeconomic factors at play. Additionally, among the five selected schools, "Adaminaby Public School" showcased the highest attendance percentage in 2018. However, there is a concerning downtrend in the recent years across all these schools.
+
+**Insights:**
+
+ - Major city schools have consistently higher attendance compared to remote schools.
+ - "Very Remote Australia" schools have faced a significant decline in student attendance over the years.
+ - "Adaminaby Public School" emerged as a frontrunner in 2018, but all selected schools reveal a declining trend in attendance after that year.
+ - The uniform decline across schools suggests a broader issue affecting attendance, rather than school-specific challenges.
 
 \section{Question 2}
 
-a) 
+a) Plot the correlation matrix for all the appropriate variabes from the soccer dataset. In 2-4 sentences, comment on the different correlations between variables.
 
 ```{r, echo=TRUE}
+par(mar = c(5, 5, 5, 5))  # Default is c(5, 4, 4, 2) + 0.1
 # Load the data
 soccer_data <- read.csv("soccer.csv")
 
@@ -161,7 +178,9 @@ corrplot(cor_matrix, method = "color", title = "Correlation Matrix for Soccer Ma
 - hr: Number of red cards received by the home team  
 - ar: Number of red cards received by the away team  
 
-b) 
+The provided correlation matrix visually represents the relationships between various soccer match variables. Dark blue signifies a strong positive correlation, while dark red indicates a strong negative correlation. The variable "hs" (probably referring to 'home score' or a similar metric) has a significant positive correlation with "as" (possibly 'away score'). In contrast, "hf" (potentially 'home fouls') shows a notable negative relationship with "ay" (perhaps 'away yellows'). Generally, some variables display strong correlations, while others exhibit weaker or no significant relationships, emphasizing the need to consider multicollinearity and other factors when modeling using these variables.
+
+b) Graphically explore the relationship between hs, as, and home_win.
 
 ```{r, echo=TRUE}
 ggplot(soccer_data, aes(x = hs, y = as, color = factor(home_win))) +
@@ -171,9 +190,9 @@ ggplot(soccer_data, aes(x = hs, y = as, color = factor(home_win))) +
   theme_minimal()
 ```
 
-add your answers here
+The scatter plot visualizes the relationship between the number of shots taken by the home and away teams, differentiated by the outcome of whether the home team won. The red circles represent matches where the home team did not win, while the teal triangles depict games where they did. There isn't a distinct linear relationship between the number of shots and the game's outcome, suggesting that simply taking more shots doesn't guarantee a win. Both winning and non-winning matches for the home team are spread throughout the plot, indicating that other factors besides the number of shots likely influence the game's result.
 
-c) 
+c) Fit a model for home side wins, home_wins, to understand what factors are possibly influencing home side wins. This model should be a fit a glm model with a binomial family (family = "binomial"). Then, use the broom package to tidy up your model output and provide an interpretation of the model. Provide 2-2 sentences on if and how any of the model diagnostic plots look different to those seen in the lecture content and SGTA material.
 
 ```{r, echo=TRUE}
 # Fit the glm model
@@ -186,9 +205,9 @@ tidy_model <- tidy(model)
 print(tidy_model)
 ```
 
-add your answers here
 
-d) 
+
+d) Plot the confidence interval(s) for the regression coefficient(s) from the model in part (b). Write 2-3 sentences that discuss what is shown in the plot.
 
 ```{r, echo=TRUE}
 ggplot(tidy_model, aes(x = reorder(term, estimate), y = estimate)) +
@@ -201,4 +220,4 @@ ggplot(tidy_model, aes(x = reorder(term, estimate), y = estimate)) +
   theme_minimal()
 ```
 
-add your answers here
+The plot displays the confidence intervals for the regression coefficients of various predictors in the model. When a confidence interval crosses the dashed line at zero, it indicates that the predictor might not have a statistically significant effect on the outcome. In this visualization, 'hst' stands out with a notably positive estimate, while 'ast' and 'hr' have negative estimates that don't intersect the zero line, suggesting their significance. It's important to integrate this visual information with the actual p-values and other model diagnostics when determining the influence of each predictor.
